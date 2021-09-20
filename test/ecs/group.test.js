@@ -1,15 +1,15 @@
 const assert = require('assert');
 const {types} = require("../../src/core/utils/Types");
-const ECS = require("../../src/core/ecs/ecs")
+const ECS = require("../../src/core/ecs/ecs");
 const { Group } = require('../../src/core/ecs/group');
 
 
-describe('Group', function() {
-    const CountEntities = 10
+describe('Group', () => {
+    const CountEntities = 10;
     const ecs = new ECS(CountEntities);
 
-    const A = ecs.CreateComponent(types.uint32)
-    const B = ecs.CreateComponent(types.int8)
+    const A = ecs.CreateComponent(types.uint32);
+    const B = ecs.CreateComponent(types.int8);
     const C = ecs.CreateComponent({
         X: types.uint16,
         Y: types.float32,
@@ -33,7 +33,7 @@ describe('Group', function() {
             3
         );
     });
-    describe('Extends', function() {
+    describe('Extends', () => {
         it("add components", () => {
             const parent = ecs.CreateGroup(A)
             assert.equal(

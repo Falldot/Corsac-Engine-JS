@@ -3,7 +3,6 @@ const chokidar = require("chokidar")
 const liveServer = require("live-server")
 const aliasPlugin = require('esbuild-plugin-path-alias');
 const path = require('path');
-const 
 
 ;(async () => {
 	const builder = await build({

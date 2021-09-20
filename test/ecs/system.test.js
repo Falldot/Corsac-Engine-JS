@@ -2,7 +2,7 @@ const assert = require('assert');
 const {types} = require("../../src/core/utils/Types");
 const ECS = require("../../src/core/ecs/ecs")
 
-describe('System', function() {
+describe('System', () => {
     const CountEntities = 11
     const CountEntitiesInChildrenGroup = 10
 
@@ -30,10 +30,12 @@ describe('System', function() {
             "function"
         );
     });
-    describe('Group', function() {
+    describe('Group', () => {
         it("entities", () => {
-            let size = 0
-            ecs.CreateSystem(children, (entities) => {size = entities.length})()
+            let size = 0;
+            ecs.CreateSystem(children, entities => {
+                size = entities.length;
+            })();
             assert.equal(
                 size,
                 CountEntitiesInChildrenGroup
@@ -41,17 +43,21 @@ describe('System', function() {
         });
         it("components", () => {
             let existComponents;
-            ecs.CreateSystem(children, (entities, b, c, a) => {existComponents = a === A && b === B && c === C})()
+            ecs.CreateSystem(children, (entities, b, c, a) => {
+                existComponents = a === A && b === B && c === C;
+            })();
             assert.equal(
                 existComponents,
                 true
             );
         });
     });
-    describe('Unique', function() {
+    describe('Unique', () => {
         it("entities", () => {
             let type;
-            ecs.CreateSystem(unique, (entity) => {type = typeof entity})()
+            ecs.CreateSystem(unique, entity => {
+                type = typeof entity;
+            })();
             assert.equal(
                 type,
                 "number"
@@ -59,7 +65,9 @@ describe('System', function() {
         });
         it("components", () => {
             let existComponents;
-            ecs.CreateSystem(unique, (entities, b, c, a) => {existComponents = a === A && b === B && c === C})()
+            ecs.CreateSystem(unique, (entities, b, c, a) => {
+                existComponents = a === A && b === B && c === C;
+            })();
             assert.equal(
                 existComponents,
                 true

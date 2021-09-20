@@ -3,7 +3,8 @@ module.exports = {
         "browser": true,
         "es2021": true,
         "amd": true,
-        "node": true
+        "node": true,
+        "jest": true
     },
     "extends": "eslint:recommended",
     "parserOptions": {
@@ -83,7 +84,7 @@ module.exports = {
         "id-match": "error",
         "implicit-arrow-linebreak": "error",
         "indent": "off",
-        "init-declarations": "error",
+        "init-declarations": "off",
         "jsx-quotes": "error",
         "key-spacing": "error",
         "keyword-spacing": [
@@ -104,10 +105,10 @@ module.exports = {
         "max-depth": "error",
         "max-len": "off",
         "max-lines": "error",
-        "max-lines-per-function": "error",
+        "max-lines-per-function": "off",
         "max-nested-callbacks": "error",
-        "max-params": "error",
-        "max-statements": "error",
+        "max-params": "off",
+        "max-statements": "off",
         "max-statements-per-line": "error",
         "multiline-comment-style": "error",
         "new-parens": "error",

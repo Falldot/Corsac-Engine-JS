@@ -1,9 +1,9 @@
 const assert = require('assert');
 const {types} = require("core/utils/Types");
-const ECS = require("core/ecs/ecs")
+const ECS = require("core/ecs/ecs");
 
-describe('Component', function() {
-    const CountEntities = 10
+describe('Component', () => {
+    const CountEntities = 10;
     const ecs = new ECS(CountEntities);
 
     describe("float64", () => {
@@ -128,15 +128,13 @@ describe('Component', function() {
     });
 
     describe("object", () => {
-        const newobj = () => {
-            return {
+        const newobj = () => ({
                 x: types.int8,
                 y: types.float32
-            }
-        }
+            });
         it("equal", () => {
             assert.equal(
-                Object.keys(ecs.CreateComponent(newobj())).filter((i) => i === "x" || i === "y").length,
+                Object.keys(ecs.CreateComponent(newobj())).filter(i => i === "x" || i === "y").length,
                 2
             );
         });

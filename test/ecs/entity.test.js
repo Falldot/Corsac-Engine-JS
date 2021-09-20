@@ -1,9 +1,9 @@
 const assert = require('assert');
 const {types} = require("../../src/core/utils/Types");
-const ECS = require("../../src/core/ecs/ecs")
+const ECS = require("../../src/core/ecs/ecs");
 
-describe('Entity', function() {
-    const CountEntities = 10
+describe('Entity', () => {
+    const CountEntities = 10;
     const ecs = new ECS(CountEntities);
 
     const A = ecs.CreateComponent(types.uint32);
@@ -20,8 +20,8 @@ describe('Entity', function() {
 
     it("add entities in group", () => {
         for (let i = 0; i < CountEntities; i++) {
-            ecs.CreateEntity(group)
-        };
+            ecs.CreateEntity(group);
+        }
         assert.equal(
             group._set._packed.length,
             CountEntities
@@ -29,7 +29,7 @@ describe('Entity', function() {
     });
     it("remove entities in group", () => {
         for (let i = 0; i < CountEntities; i++) {
-            ecs.RemoveEntity(i, group)
+            ecs.RemoveEntity(i, group);
         }
         assert.equal(
             group._set._packed.length,
@@ -38,7 +38,7 @@ describe('Entity', function() {
     });
     it("add entities in extends groups", () => {
         for (let i = 0; i < CountEntities; i++) {
-            ecs.CreateEntity(children)
+            ecs.CreateEntity(children);
         }
         assert.equal(
             parent._set._packed.length,
@@ -47,7 +47,7 @@ describe('Entity', function() {
     });
     it("remove entities in extends groups", () => {
         for (let i = 0; i < CountEntities; i++) {
-            ecs.RemoveEntity(i, children)
+            ecs.RemoveEntity(i, children);
         }
         assert.equal(
             parent._set._packed.length,

@@ -2,6 +2,5 @@
 public
 dist
 build
-test
 jest.config.js
 
