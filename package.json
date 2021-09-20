@@ -11,6 +11,9 @@
     "lint": "eslint src",
     "test": "jest"
   },
+  "jest": {
+    "modulePaths": ["src"]
+  },
   "devDependencies": {
     "chokidar": "^3.5.2",
     "esbuild": "^0.12.28",

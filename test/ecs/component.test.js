@@ -1,6 +1,6 @@
 const assert = require('assert');
-const {types} = require("../../src/core/utils/Types");
-const ECS = require("../../src/core/ecs/ecs")
+const {types} = require("core/utils/Types");
+const ECS = require("core/ecs/ecs")
 
 describe('Component', function() {
     const CountEntities = 10
