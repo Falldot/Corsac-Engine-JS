@@ -57,6 +57,27 @@
     console.log("error");
     gl.deleteProgram(program);
   };
+  var randomInt = (range) => Math.floor(Math.random() * range);
+  var setRectangle = (gl, x, y, width, height) => {
+    const x1 = x;
+    const x2 = x + width;
+    const y1 = y;
+    const y2 = y + height;
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+      x1,
+      y1,
+      x2,
+      y1,
+      x1,
+      y2,
+      x1,
+      y2,
+      x2,
+      y1,
+      x2,
+      y2
+    ]), gl.STATIC_DRAW);
+  };
   var main = () => {
     const canvas = document.querySelector("#root");
     const gl = canvas.getContext("webgl");
@@ -102,9 +123,11 @@
     const stride = 0;
     const offset = 0;
     gl.vertexAttribPointer(positionAttributeLocation, size, type, normalize, stride, offset);
-    const primitiveType = gl.TRIANGLES;
-    const count = 6;
-    gl.drawArrays(primitiveType, offset, count);
+    for (let ii = 0; ii < 50; ++ii) {
+      setRectangle(gl, randomInt(300), randomInt(300), randomInt(300), randomInt(300));
+      gl.uniform4f(colorUniformLocation, Math.random(), Math.random(), Math.random(), 1);
+      gl.drawArrays(gl.TRIANGLES, 0, 6);
+    }
   };
   main();
 })();
