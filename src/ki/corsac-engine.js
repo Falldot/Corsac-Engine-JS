@@ -47,35 +47,26 @@ const createProgram = (gl, vertexShader, fragmentShader) => {
 
 const randomInt = range => Math.floor(Math.random() * range);
 
-const CreateRect = (gl, color, positions) => {
+const CreateRect = (gl, colorUniform, positions, color) => {
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(color), gl.STATIC_DRAW);
+    //gl.uniform4f(colorUniform, color[0], color[1], color[2], color[3]);
     gl.drawArrays(gl.TRIANGLES, 0, 6);
 };
 
-const CreateColorUniform = (r, g, b, a) => [
+const CreateColor = (r, g, b, a) => [
     r / 255,
     g / 255,
     b / 255,
     a / 255
 ];
 
-const CreateAttribPositon = (x, y, w, h) => [
+const CreatePositon = (x, y, w, h) => [
     x,      y,
     x + w,    y,
     x,      y + h,
     x,      y + h,
     x + w,    y,
     x + w,    y + h,
-];
-
-const CreateAttribColor = (r, g, b, a) => [
-    r / 255, b / 255, g / 255, a / 255,
-    r / 255, b / 255, g / 255, a / 255,
-    r / 255, b / 255, g / 255, a / 255,
-    r / 255, b / 255, g / 255, a / 255,
-    r / 255, b / 255, g / 255, a / 255,
-    r / 255, b / 255, g / 255, a / 255,
 ];
 
 const main = () => {
@@ -87,52 +78,38 @@ const main = () => {
     const fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, shader2);
 
     const program = createProgram(gl, vertexShader, fragmentShader);
-
-    const positionLocation = gl.getAttribLocation(program, "a_position");
-    const colorLocation = gl.getAttribLocation(program, "a_color");
-
+    const positionAttributeLocation = gl.getAttribLocation(program, "a_position");
     const resolutionUniformLocation = gl.getUniformLocation(program, "u_resolution");
+    const colorUniformLocation = gl.getUniformLocation(program, "u_color");
 
-    //position
     const positionBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
 
-    //color
-    const colorBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
-
-
     gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+
     gl.clearColor(0, 0, 0, 0);
     gl.clear(gl.COLOR_BUFFER_BIT);
 
     gl.useProgram(program);
 
-    const size = 4;
+    gl.enableVertexAttribArray(positionAttributeLocation);
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+
+    const size = 2;
     const type = gl.FLOAT;
     const normalize = false;
     const stride = 0;
     const offset = 0;
-
-    //position
-    gl.enableVertexAttribArray(positionLocation);
-    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-    gl.vertexAttribPointer(positionLocation, size, type, normalize, stride, offset);
-    ///////////////////////
-
-    //color
-    gl.enableVertexAttribArray(colorLocation);
-    gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
-    gl.vertexAttribPointer(colorLocation, size, type, normalize, stride, offset);
-    ///////////////////////
+    gl.vertexAttribPointer(positionAttributeLocation, size, type, normalize, stride, offset);
 
     gl.uniform2f(resolutionUniformLocation, gl.canvas.width, gl.canvas.height);
 
-   // for (let ii = 0; ii < 50; ++ii) {
-    const pos = CreateAttribPositon(randomInt(300), randomInt(300), randomInt(300), randomInt(300));
-    const color = CreateAttribColor(randomInt(255), randomInt(255), randomInt(255), 255);
-    CreateRect(gl, color, pos);
-    //}
+    for (let ii = 0; ii < 50; ++ii) {
+        const pos  = CreatePositon(randomInt(300), randomInt(300), randomInt(300), randomInt(300));
+        const color = CreateColor(randomInt(255), randomInt(255), randomInt(255), 255);
+        CreateRect(gl, colorUniformLocation, pos, color);
+    }
 };
 main();
 

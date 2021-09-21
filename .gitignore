@@ -11,3 +11,5 @@
 
 # Jest
 /coverage
+
+/public/js
