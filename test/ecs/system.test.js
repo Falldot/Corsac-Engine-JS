@@ -2,7 +2,7 @@ const assert = require('assert');
 const {types} = require("../../src/core/utils/Types");
 const ECS = require("../../src/core/ecs/ecs")
 
-describe('System', function() {
+describe('System', () => {
     const CountEntities = 11
     const CountEntitiesInChildrenGroup = 10
 
@@ -24,6 +24,7 @@ describe('System', function() {
         ecs.CreateEntity(children)
     }
 
+<<<<<<< HEAD
     test('type', () => {
         expect(typeof ecs.CreateSystem(children, () => {})).toBe("function");
     })
@@ -46,5 +47,56 @@ describe('System', function() {
                 expect(a === A && b === B && c === C).toBeTruthy();
             })()
         })
+=======
+    it("type", () => {
+        assert.equal(
+            typeof ecs.CreateSystem(children, () => {}),
+            "function"
+        );
+    });
+    describe('Group', () => {
+        it("entities", () => {
+            let size = 0;
+            ecs.CreateSystem(children, entities => {
+                size = entities.length;
+            })();
+            assert.equal(
+                size,
+                CountEntitiesInChildrenGroup
+            );
+        });
+        it("components", () => {
+            let existComponents;
+            ecs.CreateSystem(children, (entities, b, c, a) => {
+                existComponents = a === A && b === B && c === C;
+            })();
+            assert.equal(
+                existComponents,
+                true
+            );
+        });
+    });
+    describe('Unique', () => {
+        it("entities", () => {
+            let type;
+            ecs.CreateSystem(unique, entity => {
+                type = typeof entity;
+            })();
+            assert.equal(
+                type,
+                "number"
+            );
+        });
+        it("components", () => {
+            let existComponents;
+            ecs.CreateSystem(unique, (entities, b, c, a) => {
+                existComponents = a === A && b === B && c === C;
+            })();
+            assert.equal(
+                existComponents,
+                true
+            );
+        });
+>>>>>>> 144b93eec047e97ad7a7133491b7138d9cc8b579
     });
 });
