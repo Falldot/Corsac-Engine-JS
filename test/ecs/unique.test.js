@@ -14,38 +14,17 @@ describe('Unique', function() {
         Y: types.float32,
     })
 
-    it("type", () => {
-        assert.equal(
-            ecs.CreateUniqueEntity(A, B, C).constructor,
-            new Unique(0, A, B, C).constructor
-        );
-    });
-    it("components", () => {
-        assert.equal(
-            ecs.CreateUniqueEntity(A, B, C)._components.length,
-            3
-        );
-    });
-    it("components equal", () => {
-        assert.equal(
-            ecs.CreateUniqueEntity(A, B, C)._components.filter(e => e === A || e === B || e === C).length,
-            3
-        );
-    });
+    
+    test('type', () => {   
+        expect(ecs.CreateUniqueEntity(A, B, C)).toStrictEqual(new Unique(0, [A, B, C]));
+    })
+
     describe('Extends', function() {
-        it("add components", () => {
-            const parent = ecs.CreateGroup(A)
-            assert.equal(
-                ecs.CreateUniqueEntity(B, C).Extends(parent)._components.length,
-                3
-            );
-        });
-        it("equal components", () => {
-            const parent = ecs.CreateGroup(A)
-            assert.equal(
-                ecs.CreateUniqueEntity(B, C).Extends(parent)._components.filter(e => e === A || e === B || e === C).length,
-                3
-            );
+        test('add components', () => {
+            const parent = ecs.CreateGroup(A);
+            const reference = new Unique(1, [B, C, A]);
+            reference._parents.push(parent);
+            expect(ecs.CreateUniqueEntity(B, C).Extends(parent)).toStrictEqual(reference);
         });
     });
 });

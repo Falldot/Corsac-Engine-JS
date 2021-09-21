@@ -1,9 +1,9 @@
 const assert = require('assert');
 const {types} = require("../../src/core/utils/Types");
-const ECS = require("../../src/core/ecs/ecs");
+const ECS = require("../../src/core/ecs/ecs")
 
-describe('Entity', () => {
-    const CountEntities = 10;
+describe('Entity', function() {
+    const CountEntities = 10
     const ecs = new ECS(CountEntities);
 
     const A = ecs.CreateComponent(types.uint32);
@@ -18,40 +18,30 @@ describe('Entity', () => {
     const parent = ecs.CreateGroup(A);
     const children = ecs.CreateGroup(B, C).Extends(parent);
 
-    it("add entities in group", () => {
+    test('add entities in group', () => {
         for (let i = 0; i < CountEntities; i++) {
-            ecs.CreateEntity(group);
-        }
-        assert.equal(
-            group._set._packed.length,
-            CountEntities
-        );
+            ecs.CreateEntity(group)
+        };
+        expect(group._set._packed).toHaveLength(CountEntities);
     });
-    it("remove entities in group", () => {
+    test('remove entities in group', () => {
         for (let i = 0; i < CountEntities; i++) {
-            ecs.RemoveEntity(i, group);
+            ecs.RemoveEntity(i, group)
         }
-        assert.equal(
-            group._set._packed.length,
-            0
-        );
+        expect(group._set._packed).toHaveLength(0);
     });
-    it("add entities in extends groups", () => {
+
+    test('add entities in extends groups', () => {
         for (let i = 0; i < CountEntities; i++) {
-            ecs.CreateEntity(children);
-        }
-        assert.equal(
-            parent._set._packed.length,
-            CountEntities
-        );
+            ecs.CreateEntity(children)
+        };
+        expect(parent._set._packed).toHaveLength(CountEntities);
     });
-    it("remove entities in extends groups", () => {
+    test('remove entities in extends groups', () => {
         for (let i = 0; i < CountEntities; i++) {
-            ecs.RemoveEntity(i, children);
+            ecs.RemoveEntity(i, children)
         }
-        assert.equal(
-            parent._set._packed.length,
-            0
-        );
+        expect(parent._set._packed).toHaveLength(0);
     });
+
 });

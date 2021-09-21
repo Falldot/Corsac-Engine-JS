@@ -1,158 +1,98 @@
 const assert = require('assert');
 const {types} = require("core/utils/Types");
-const ECS = require("core/ecs/ecs");
+const ECS = require("core/ecs/ecs")
 
-describe('Component', () => {
-    const CountEntities = 10;
+describe('Component', function() {
+    const CountEntities = 10
     const ecs = new ECS(CountEntities);
 
     describe("float64", () => {
-        it("type", () => {
-            assert.equal(
-                ecs.CreateComponent(types.float64).constructor,
-                new Float64Array(CountEntities).constructor
-            );
+        test('type', () => {
+            expect(ecs.CreateComponent(types.float64)).toStrictEqual(new Float64Array(CountEntities))
         });
-        it("lenght", () => {
-            assert.equal(
-                ecs.CreateComponent(types.float64).lenght,
-                new Float64Array(CountEntities).lenght
-            );
+        test('not type', () => {
+            expect(ecs.CreateComponent(types.float64)).not.toStrictEqual(new Float32Array(CountEntities))
         });
     });
 
 
     describe("float32", () => {
-        it("type", () => {
-            assert.equal(
-                ecs.CreateComponent(types.float32).constructor,
-                new Float32Array(CountEntities).constructor
-            );
+        test('type', () => {
+            expect(ecs.CreateComponent(types.float32)).toStrictEqual(new Float32Array(CountEntities))
         });
-        it("lenght", () => {
-            assert.equal(
-                ecs.CreateComponent(types.float32).lenght,
-                new Float32Array(CountEntities).lenght
-            );
+        test('not type', () => {
+            expect(ecs.CreateComponent(types.float32)).not.toStrictEqual(new Float64Array(CountEntities))
         });
     });
 
     describe("uint32", () => {
-        it("type", () => {
-            assert.equal(
-                ecs.CreateComponent(types.uint32).constructor,
-                new Uint32Array(CountEntities).constructor
-            );
+        test('type', () => {
+            expect(ecs.CreateComponent(types.uint32)).toStrictEqual(new Uint32Array(CountEntities))
         });
-        it("lenght", () => {
-            assert.equal(
-                ecs.CreateComponent(types.uint32).lenght,
-                new Uint32Array(CountEntities).lenght
-            );
+        test('not type', () => {
+            expect(ecs.CreateComponent(types.uint32)).not.toStrictEqual(new Float64Array(CountEntities))
         });
     });
 
     describe("int32", () => {
-        it("type", () => {
-            assert.equal(
-                ecs.CreateComponent(types.int32).constructor,
-                new Int32Array(CountEntities).constructor
-            );
+        test('type', () => {
+            expect(ecs.CreateComponent(types.int32)).toStrictEqual(new Int32Array(CountEntities))
         });
-        it("lenght", () => {
-        assert.equal(
-                ecs.CreateComponent(types.int32).lenght,
-                new Int32Array(CountEntities).lenght
-            );
+        test('not type', () => {
+            expect(ecs.CreateComponent(types.int32)).not.toStrictEqual(new Float64Array(CountEntities))
         });
     });
 
     describe("int16", () => {
-        it("type", () => {
-            assert.equal(
-                ecs.CreateComponent(types.int16).constructor,
-                new Int16Array(CountEntities).constructor
-            );
+        test('type', () => {
+            expect(ecs.CreateComponent(types.int16)).toStrictEqual(new Int16Array(CountEntities))
         });
-        it("lenght", () => {
-        assert.equal(
-                ecs.CreateComponent(types.int16).lenght,
-                new Int16Array(CountEntities).lenght
-            );
+        test('not type', () => {
+            expect(ecs.CreateComponent(types.int16)).not.toStrictEqual(new Float64Array(CountEntities))
         });
     });
 
     describe("uint16", () => {
-        it("type", () => {
-            assert.equal(
-                ecs.CreateComponent(types.uint16).constructor,
-                new Uint16Array(CountEntities).constructor
-            );
+        test('type', () => {
+            expect(ecs.CreateComponent(types.uint16)).toStrictEqual(new Uint16Array(CountEntities))
         });
-        it("lenght", () => {
-        assert.equal(
-                ecs.CreateComponent(types.uint16).lenght,
-                new Uint16Array(CountEntities).lenght
-            );
+        test('not type', () => {
+            expect(ecs.CreateComponent(types.uint16)).not.toStrictEqual(new Float64Array(CountEntities))
         });
     });
 
     describe("int8", () => {
-        it("type", () => {
-            assert.equal(
-            ecs.CreateComponent(types.int8).constructor,
-            new Int8Array(CountEntities).constructor
-            );
+        test('type', () => {
+            expect(ecs.CreateComponent(types.int8)).toStrictEqual(new Int8Array(CountEntities))
         });
-        it("lenght", () => {
-        assert.equal(
-            ecs.CreateComponent(types.int8).lenght,
-            new Int8Array(CountEntities).lenght
-            );
+        test('not type', () => {
+            expect(ecs.CreateComponent(types.int8)).not.toStrictEqual(new Float64Array(CountEntities))
         });
     });
 
     describe("uint8", () => {
-        it("type", () => {
-            assert.equal(
-            ecs.CreateComponent(types.uint8).constructor,
-            new Uint8Array(CountEntities).constructor
-            );
+        test('type', () => {
+            expect(ecs.CreateComponent(types.uint8)).toStrictEqual(new Uint8Array(CountEntities))
         });
-        it("lenght", () => {
-        assert.equal(
-            ecs.CreateComponent(types.uint8).lenght,
-            new Uint8Array(CountEntities).lenght
-            );
+        test('not type', () => {
+            expect(ecs.CreateComponent(types.uint8)).not.toStrictEqual(new Float64Array(CountEntities))
         });
     });
 
     describe("object", () => {
-        const newobj = () => ({
+        const newobj = () => {
+            return {
                 x: types.int8,
                 y: types.float32
-            });
-        it("equal", () => {
-            assert.equal(
-                Object.keys(ecs.CreateComponent(newobj())).filter(i => i === "x" || i === "y").length,
-                2
-            );
-        });
-        it("lenght", () => {
-            assert.equal(
-                Object.keys(ecs.CreateComponent(newobj())).length,
-                2
-            );
-        });
-        it("fields types", () => {
-            assert.equal(
-                ecs.CreateComponent(newobj()).x.constructor,
-                new Int8Array().constructor
-            );
-            assert.equal(
-                ecs.CreateComponent(newobj()).y.constructor,
-                new Float32Array().constructor
-            );
-        });
+            }
+        }
+        const finalObj = {
+            x: new Int8Array(CountEntities), 
+            y: new Float32Array(CountEntities),
+        }
+
+        test('Field exist', () => {
+            expect(ecs.CreateComponent(newobj())).toStrictEqual(finalObj);
+        })
     });
 });
