@@ -1,5 +1,6 @@
 .eslintrc.js
 public
+private/modules
 dist
 build
 jest.config.js

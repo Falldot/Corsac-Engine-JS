@@ -58,7 +58,7 @@ module.exports = {
             "error",
             "never"
         ],
-        "consistent-return": "error",
+        "consistent-return": "off",
         "consistent-this": "error",
         "curly": "off",
         "default-case": "error",
@@ -110,7 +110,7 @@ module.exports = {
         "max-params": "off",
         "max-statements": "off",
         "max-statements-per-line": "error",
-        "multiline-comment-style": "error",
+        "multiline-comment-style": "off",
         "new-parens": "error",
         "newline-per-chained-call": "error",
         "no-alert": "error",
@@ -148,7 +148,7 @@ module.exports = {
         "no-magic-numbers": "off",
         "no-mixed-operators": "error",
         "no-multi-assign": "error",
-        "no-multi-spaces": "error",
+        "no-multi-spaces": "off",
         "no-multi-str": "error",
         "no-multiple-empty-lines": "off",
         "no-negated-condition": "error",
@@ -257,7 +257,7 @@ module.exports = {
         "space-infix-ops": "error",
         "space-unary-ops": "error",
         "spaced-comment": [
-            "error",
+            "off",
             "never"
         ],
         "strict": "error",

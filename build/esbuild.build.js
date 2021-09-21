@@ -1,14 +1,18 @@
-require("esbuild").buildSync({
+const path = require('path');
+const { build } = require("esbuild")
+const aliasPlugin = require('esbuild-plugin-path-alias');
+
+// ECS
+build({
 	bundle: true,
-	format: "iife",
+	platform: "node",
 	define: { "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV || "development") },
-	entryPoints: ["src/corsac-engine.js"],
+	entryPoints: ["src/ECS/index.js"],
 	minify: true,
-	sourcemap: true,
-	target: ['chrome93'],
+	target: ['node16.9'],
 	plugins: [aliasPlugin({
 		'@': path.resolve(__dirname, "../src"),
 		'#': path.resolve(__dirname, "../src/core")
 	})],
-	outfile: "dist/corsac-engine.js",
+	outfile: "private/modules/ecs.js",
 })

@@ -20,6 +20,7 @@
   "devDependencies": {
     "chokidar": "^3.5.2",
     "esbuild": "^0.12.28",
+    "esbuild-plugin-glsl": "^1.0.5",
     "esbuild-plugin-path-alias": "^1.0.3",
     "eslint": "^7.32.0",
     "jest": "^27.2.1",

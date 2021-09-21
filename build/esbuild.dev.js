@@ -2,6 +2,7 @@ const { build } = require("esbuild")
 const chokidar = require("chokidar")
 const liveServer = require("live-server")
 const aliasPlugin = require('esbuild-plugin-path-alias');
+const {glsl} = require('esbuild-plugin-glsl')
 const path = require('path');
 
 ;(async () => {
@@ -19,6 +20,9 @@ const path = require('path');
 				'@': path.resolve(__dirname, "../src"),
 				'#': path.resolve(__dirname, "../src/core")
 			}),
+			glsl({
+				minify: true
+			})
 		],
 		outdir: "public/js",
 	})

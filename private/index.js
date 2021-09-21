@@ -1,4 +1,4 @@
-const {ECS, types} = require("./ECS");
+const {ECS, types} = require("./modules/ecs");
 
 const ecs = new ECS();
 
