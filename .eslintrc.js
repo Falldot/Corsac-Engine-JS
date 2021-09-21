@@ -16,7 +16,7 @@ module.exports = {
         "array-bracket-newline": "error",
         "array-bracket-spacing": "error",
         "array-callback-return": "error",
-        "array-element-newline": "error",
+        "array-element-newline": "off",
         "arrow-body-style": "error",
         "arrow-parens": [
             "error",
@@ -125,7 +125,7 @@ module.exports = {
         "no-div-regex": "error",
         "no-duplicate-imports": "error",
         "no-else-return": "off",
-        "no-empty-function": "error",
+        "no-empty-function": "off",
         "no-eq-null": "error",
         "no-eval": "error",
         "no-extend-native": "error",

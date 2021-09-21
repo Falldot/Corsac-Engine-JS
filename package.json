@@ -6,6 +6,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
+    "serve": "node ./private/index.js",
     "start": "node ./build/esbuild.dev.js",
     "build": "node ./build/esbuild.build.js",
     "lint": "eslint src",
