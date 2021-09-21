@@ -57,6 +57,31 @@
     console.log("error");
     gl.deleteProgram(program);
   };
+  var CreateRect = (gl, colorUniform, positions, color) => {
+    gl.uniform4f(colorUniform, color[0], color[1], color[2], color[3]);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+    gl.drawArrays(gl.TRIANGLES, 0, 6);
+  };
+  var CreateColor = (r, g, b, a) => [
+    r / 255,
+    g / 255,
+    b / 255,
+    a / 255
+  ];
+  var CreatePositon = (xstart, ystart, xend, yend) => [
+    xstart,
+    ystart,
+    xend,
+    ystart,
+    xstart,
+    yend,
+    xstart,
+    yend,
+    xend,
+    ystart,
+    xend,
+    yend
+  ];
   var main = () => {
     const canvas = document.querySelector("#root");
     const gl = canvas.getContext("webgl");
@@ -93,7 +118,13 @@
     gl.clear(gl.COLOR_BUFFER_BIT);
     gl.useProgram(program);
     gl.uniform2f(resolutionUniformLocation, gl.canvas.width, gl.canvas.height);
-    gl.uniform4f(colorUniformLocation, 1, 1, 0, 1);
+    gl.uniform4f(colorUniformLocation, 1, 0, 0, 1);
+    const color = CreateColor(200, 144, 244, 255);
+    const pos = CreatePositon(0, 0, 466, 200);
+    CreateRect(gl, colorUniformLocation, pos, color);
+    const color2 = CreateColor(100, 100, 225, 255);
+    const pos2 = CreatePositon(500, 500, 600, 600);
+    CreateRect(gl, colorUniformLocation, pos2, color2);
     gl.enableVertexAttribArray(positionAttributeLocation);
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
     const size = 2;
