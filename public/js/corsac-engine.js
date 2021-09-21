@@ -16,7 +16,7 @@
   // src/shader2.glsl
   var require_shader2 = __commonJS({
     "src/shader2.glsl"(exports, module) {
-      module.exports = "precision mediump float;void main(){gl_FragColor=vec4(1,0,0.5,1);}";
+      module.exports = "precision mediump float;uniform vec4 u_color;void main(){gl_FragColor=u_color;}";
     }
   });
 
@@ -66,6 +66,7 @@
     const program = createProgram(gl, vertexShader, fragmentShader);
     const positionAttributeLocation = gl.getAttribLocation(program, "a_position");
     const resolutionUniformLocation = gl.getUniformLocation(program, "u_resolution");
+    const colorUniformLocation = gl.getUniformLocation(program, "u_color");
     const positionBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
     const xstart = 0;
@@ -92,6 +93,7 @@
     gl.clear(gl.COLOR_BUFFER_BIT);
     gl.useProgram(program);
     gl.uniform2f(resolutionUniformLocation, gl.canvas.width, gl.canvas.height);
+    gl.uniform4f(colorUniformLocation, 1, 1, 0, 1);
     gl.enableVertexAttribArray(positionAttributeLocation);
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
     const size = 2;

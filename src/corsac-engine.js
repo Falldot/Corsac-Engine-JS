@@ -55,6 +55,7 @@ const main = () => {
     const program = createProgram(gl, vertexShader, fragmentShader);
     const positionAttributeLocation = gl.getAttribLocation(program, "a_position");
     const resolutionUniformLocation = gl.getUniformLocation(program, "u_resolution");
+    const colorUniformLocation = gl.getUniformLocation(program, "u_color");
 
     const positionBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
@@ -82,6 +83,7 @@ const main = () => {
 
     gl.useProgram(program);
     gl.uniform2f(resolutionUniformLocation, gl.canvas.width, gl.canvas.height);
+    gl.uniform4f(colorUniformLocation, 1, 1, 0, 1);
 
     gl.enableVertexAttribArray(positionAttributeLocation);
 
