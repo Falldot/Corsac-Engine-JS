@@ -18,40 +18,30 @@ describe('Entity', function() {
     const parent = ecs.CreateGroup(A);
     const children = ecs.CreateGroup(B, C).Extends(parent);
 
-    it("add entities in group", () => {
+    test('add entities in group', () => {
         for (let i = 0; i < CountEntities; i++) {
             ecs.CreateEntity(group)
         };
-        assert.equal(
-            group._set._packed.length,
-            CountEntities
-        );
+        expect(group._set._packed).toHaveLength(CountEntities);
     });
-    it("remove entities in group", () => {
+    test('remove entities in group', () => {
         for (let i = 0; i < CountEntities; i++) {
             ecs.RemoveEntity(i, group)
         }
-        assert.equal(
-            group._set._packed.length,
-            0
-        );
+        expect(group._set._packed).toHaveLength(0);
     });
-    it("add entities in extends groups", () => {
+
+    test('add entities in extends groups', () => {
         for (let i = 0; i < CountEntities; i++) {
             ecs.CreateEntity(children)
-        }
-        assert.equal(
-            parent._set._packed.length,
-            CountEntities
-        );
+        };
+        expect(parent._set._packed).toHaveLength(CountEntities);
     });
-    it("remove entities in extends groups", () => {
+    test('remove entities in extends groups', () => {
         for (let i = 0; i < CountEntities; i++) {
             ecs.RemoveEntity(i, children)
         }
-        assert.equal(
-            parent._set._packed.length,
-            0
-        );
+        expect(parent._set._packed).toHaveLength(0);
     });
+
 });

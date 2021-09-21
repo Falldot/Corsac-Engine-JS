@@ -15,38 +15,25 @@ describe('Group', function() {
         Y: types.float32,
     })
 
-    it("constructor", () => {
-        assert.equal(
-            ecs.CreateGroup(A).constructor,
-            new Group().constructor
-        );
+    test('type', () => {
+        expect(ecs.CreateGroup()).toStrictEqual(new Group([]));
     });
-    it("components", () => {
-        assert.equal(
-            ecs.CreateGroup(A, B, C)._components.length,
-            3
-        );
+
+    test('components', () => {
+        expect(ecs.CreateGroup(A, B, C)).toStrictEqual(new Group([A, B, C]));
     });
-    it("components equal", () => {
-        assert.equal(
-            ecs.CreateGroup(A, B, C)._components.filter(e => e === A || e === B || e === C).length,
-            3
-        );
-    });
+
     describe('Extends', function() {
-        it("add components", () => {
-            const parent = ecs.CreateGroup(A)
-            assert.equal(
-                ecs.CreateGroup(B, C).Extends(parent)._components.length,
-                3
-            );
-        });
-        it("equal components", () => {
-            const parent = ecs.CreateGroup(A)
-            assert.equal(
-                ecs.CreateGroup(B, C).Extends(parent)._components.filter(e => e === A || e === B || e === C).length,
-                3
-            );
-        });
+        test('add components', () => {
+            const parent = ecs.CreateGroup(A);
+            expect(ecs.CreateGroup(B, C).Extends(parent)._components).toStrictEqual(new Group([B, C, A])._components);
+        }); 
+        test('add parent', () => {
+            const parent = ecs.CreateGroup(A);
+            const reference = new Group([]);
+            reference._parents.push(parent)
+            expect(ecs.CreateGroup().Extends(parent)._parents).toStrictEqual(reference._parents);
+        })
+        
     });
 });
