@@ -18,7 +18,7 @@ module.exports = class ECS {
     }
 
     CreateUniqueEntity(...components) {
-        return new Unique(this._entities.Pop(), components);
+        return new Unique(this._entities.Pop(), ...components);
     }
 
     CreateEntity(...groups) {

@@ -1,5 +1,4 @@
-const ECS = require("#/ecs/ecs");
-const { types } = require("#/utils/Types");
+const {ECS, types} = require("./ECS");
 
 const ecs = new ECS();
 
@@ -15,7 +14,5 @@ const Transform = ecs.CreateSystem(Translate, (entities, Pos) => {
 });
 
 ecs.CreateEntity(Translate);
-
-console.log("hi");
 
 Transform();

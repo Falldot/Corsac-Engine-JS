@@ -182,7 +182,7 @@
           return new Group(components);
         }
         CreateUniqueEntity(...components) {
-          return new Unique(this._entities.Pop(), components);
+          return new Unique(this._entities.Pop(), ...components);
         }
         CreateEntity(...groups) {
           const id = this._entities.Pop();
@@ -207,9 +207,20 @@
     }
   });
 
+  // src/ECS/index.js
+  var require_ECS = __commonJS({
+    "src/ECS/index.js"(exports, module) {
+      var ECS2 = require_ecs();
+      var { types: types2 } = require_Types();
+      module.exports = {
+        ECS: ECS2,
+        types: types2
+      };
+    }
+  });
+
   // src/corsac-engine.js
-  var ECS = require_ecs();
-  var { types } = require_Types();
+  var { ECS, types } = require_ECS();
   var ecs = new ECS();
   var Position = ecs.CreateComponent(types.uint32);
   var Direction = ecs.CreateComponent(types.uint32);
@@ -220,7 +231,6 @@
     });
   });
   ecs.CreateEntity(Translate);
-  console.log("hi");
   Transform();
 })();
-//# sourceMappingURL=script.js.map
+//# sourceMappingURL=corsac-engine.js.map

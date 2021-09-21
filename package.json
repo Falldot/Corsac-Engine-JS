@@ -12,7 +12,9 @@
     "test": "jest"
   },
   "jest": {
-    "modulePaths": ["src"]
+    "modulePaths": [
+      "src"
+    ]
   },
   "devDependencies": {
     "chokidar": "^3.5.2",

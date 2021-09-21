@@ -13,7 +13,7 @@ describe('Group', () => {
     const C = ecs.CreateComponent({
         X: types.uint16,
         Y: types.float32,
-    })
+    });
 
     it("constructor", () => {
         assert.equal(

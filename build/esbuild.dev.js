@@ -14,11 +14,13 @@ const path = require('path');
 		minify: false,
 		sourcemap: true,
 		target: ['chrome93'],
-		plugins: [aliasPlugin({
-			'@': path.resolve(__dirname, "../src"),
-			'#': path.resolve(__dirname, "../src/core")
-		})],
-		outfile: "public/script.js",
+		plugins: [
+			aliasPlugin({
+				'@': path.resolve(__dirname, "../src"),
+				'#': path.resolve(__dirname, "../src/core")
+			}),
+		],
+		outdir: "public/js",
 	})
 	liveServer.start({
 		open: true,
