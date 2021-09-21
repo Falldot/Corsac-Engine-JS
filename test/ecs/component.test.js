@@ -1,9 +1,9 @@
 const assert = require('assert');
 const {types} = require("core/utils/Types");
-const ECS = require("core/ecs/ecs");
+const ECS = require("core/ecs/ecs")
 
-describe('Component', () => {
-    const CountEntities = 10;
+describe('Component', function() {
+    const CountEntities = 10
     const ecs = new ECS(CountEntities);
 
     describe("float64", () => {
@@ -80,10 +80,10 @@ describe('Component', () => {
     });
 
     describe("object", () => {
-        const newobj = () => ({
+        const newobj = () => {
+            return {
                 x: types.int8,
                 y: types.float32
-<<<<<<< HEAD
             }
         }
         const finalObj = {
@@ -94,30 +94,5 @@ describe('Component', () => {
         test('Field exist', () => {
             expect(ecs.CreateComponent(newobj())).toStrictEqual(finalObj);
         })
-=======
-            });
-        it("equal", () => {
-            assert.equal(
-                Object.keys(ecs.CreateComponent(newobj())).filter(i => i === "x" || i === "y").length,
-                2
-            );
-        });
-        it("lenght", () => {
-            assert.equal(
-                Object.keys(ecs.CreateComponent(newobj())).length,
-                2
-            );
-        });
-        it("fields types", () => {
-            assert.equal(
-                ecs.CreateComponent(newobj()).x.constructor,
-                new Int8Array().constructor
-            );
-            assert.equal(
-                ecs.CreateComponent(newobj()).y.constructor,
-                new Float32Array().constructor
-            );
-        });
->>>>>>> 144b93eec047e97ad7a7133491b7138d9cc8b579
     });
 });
