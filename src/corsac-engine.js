@@ -44,6 +44,7 @@ const createProgram = (gl, vertexShader, fragmentShader) => {
     gl.deleteProgram(program);
 };
 
+<<<<<<< HEAD
 const randomInt = range => Math.floor(Math.random() * range);
 
 const setRectangle = (gl, x, y, width, height) => {
@@ -61,6 +62,31 @@ const setRectangle = (gl, x, y, width, height) => {
        x2, y2
     ]), gl.STATIC_DRAW);
 };
+=======
+const CreateRect = (gl, colorUniform, positions, color) => {
+    gl.uniform4f(colorUniform, color[0], color[1], color[2], color[3]);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+    gl.drawArrays(gl.TRIANGLES, 0, 6);
+};
+
+const CreateColor = (r, g, b, a) => [
+    r / 255,
+    g / 255,
+    b / 255,
+    a / 255
+];
+
+const CreatePositon = (xstart, ystart, xend, yend) => [
+    xstart, ystart,
+    xend,   ystart,
+    xstart, yend,
+    xstart, yend,
+    xend,   ystart,
+    xend,   yend,
+];
+
+
+>>>>>>> e53a668e9d008b0654fe59127a34853bb3f798ca
 
 const main = () => {
     const canvas = document.querySelector("#root");
@@ -101,8 +127,13 @@ const main = () => {
 
     gl.useProgram(program);
     gl.uniform2f(resolutionUniformLocation, gl.canvas.width, gl.canvas.height);
-    gl.uniform4f(colorUniformLocation, 1, 1, 0, 1);
-
+    gl.uniform4f(colorUniformLocation, 1, 0, 0, 1);
+    const color = CreateColor(200, 144, 244, 255);
+    const pos  = CreatePositon(0, 0, 466, 200);
+    CreateRect(gl, colorUniformLocation, pos, color);
+    const color2 = CreateColor(100, 100, 225, 255);
+    const pos2  = CreatePositon(500, 500, 600, 600);
+    CreateRect(gl, colorUniformLocation, pos2, color2);
     gl.enableVertexAttribArray(positionAttributeLocation);
 
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
