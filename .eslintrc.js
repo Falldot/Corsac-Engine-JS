@@ -245,9 +245,9 @@ module.exports = {
             "error",
             "last"
         ],
-        "sort-imports": "error",
+        "sort-imports": "off",
         "sort-keys": "off",
-        "sort-vars": "error",
+        "sort-vars": "off",
         "space-before-blocks": "error",
         "space-before-function-paren": "off",
         "space-in-parens": [

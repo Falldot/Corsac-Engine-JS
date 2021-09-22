@@ -1,19 +1,12 @@
-/* eslint-disable no-undef */
-//const {ECS, types} = require("./ECS");
-
 const shader1 = require("./shader1.glsl");
 const shader2 = require("./shader2.glsl");
+const Rect    = require("./CSM/Rect");
+const Manager = require("./CSM/Manager");
+const {EaseOutElastic, EaseInOutBounce, EaseOutBounce }     = require("./CSM/Easle");
 
 const resize = canvas => {
-    const displayWidth = document.body.clientWidth;
-    const displayHeight = document.body.clientHeight;
-
-    if (canvas.width != displayWidth ||
-        canvas.height != displayHeight) {
-
-      canvas.width = displayWidth;
-      canvas.height = displayHeight;
-    }
+    canvas.width = document.body.clientWidth;
+    canvas.height = document.body.clientHeight;
 };
 
 window.addEventListener(`resize`, () => {
@@ -47,36 +40,31 @@ const createProgram = (gl, vertexShader, fragmentShader) => {
 
 const randomInt = range => Math.floor(Math.random() * range);
 
-const CreateRect = (gl, color, positions) => {
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(color), gl.STATIC_DRAW);
-    gl.drawArrays(gl.TRIANGLES, 0, 6);
-};
+const CreateResize = (obj, x, y, w, h, t) => {
+    const   turnX = (x - obj.x) / (t * 60),
+            turnY = (y - obj.y) / (t * 60),
+            turnW = (w - obj.w) / (t * 60),
+            turnH = (h - obj.w) / (t * 60);
 
-const CreateColorUniform = (r, g, b, a) => [
-    r / 255,
-    g / 255,
-    b / 255,
-    a / 255
-];
 
-const CreateAttribPositon = (x, y, w, h) => [
-    x,      y,
-    x + w,    y,
-    x,      y + h,
-    x,      y + h,
-    x + w,    y,
-    x + w,    y + h,
-];
 
-const CreateAttribColor = (r, g, b, a) => [
-    r / 255, b / 255, g / 255, a / 255,
-    r / 255, b / 255, g / 255, a / 255,
-    r / 255, b / 255, g / 255, a / 255,
-    r / 255, b / 255, g / 255, a / 255,
-    r / 255, b / 255, g / 255, a / 255,
-    r / 255, b / 255, g / 255, a / 255,
-];
+    const loop = setInterval(() => {
+        obj.x += turnX;
+        obj.y += turnY;
+        obj.w += turnW;
+        obj.h += turnH;
+    }, 1000 / 60);
+
+    setTimeout(() => {
+        clearInterval(loop);
+        const   canvas = document.querySelector("#root"),
+                nX = randomInt(canvas.width),
+                nY = randomInt(canvas.height),
+                nW = randomInt(canvas.width - x),
+                nH = randomInt(canvas.height - y);
+        CreateResize(obj, nX, nY, nW, nH, t);
+    }, t * 1000);
+}
 
 const main = () => {
     const canvas = document.querySelector("#root");
@@ -87,72 +75,62 @@ const main = () => {
     const fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, shader2);
 
     const program = createProgram(gl, vertexShader, fragmentShader);
-
-    const positionLocation = gl.getAttribLocation(program, "a_position");
-    const colorLocation = gl.getAttribLocation(program, "a_color");
-
+    const positionAttributeLocation = gl.getAttribLocation(program, "a_position");
     const resolutionUniformLocation = gl.getUniformLocation(program, "u_resolution");
+    const color = gl.getUniformLocation(program, "v_color");
 
-    //position
     const positionBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
 
-    //color
-    const colorBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
-
-
     gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+
     gl.clearColor(0, 0, 0, 0);
     gl.clear(gl.COLOR_BUFFER_BIT);
 
     gl.useProgram(program);
 
-    const size = 4;
+    gl.enableVertexAttribArray(positionAttributeLocation);
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+
+    const size = 2;
     const type = gl.FLOAT;
     const normalize = false;
     const stride = 0;
     const offset = 0;
-
-    //position
-    gl.enableVertexAttribArray(positionLocation);
-    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-    gl.vertexAttribPointer(positionLocation, size, type, normalize, stride, offset);
-    ///////////////////////
-
-    //color
-    gl.enableVertexAttribArray(colorLocation);
-    gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
-    gl.vertexAttribPointer(colorLocation, size, type, normalize, stride, offset);
-    ///////////////////////
+    gl.vertexAttribPointer(positionAttributeLocation, size, type, normalize, stride, offset);
 
     gl.uniform2f(resolutionUniformLocation, gl.canvas.width, gl.canvas.height);
+    const rects = [];
 
-   // for (let ii = 0; ii < 50; ++ii) {
-    const pos = CreateAttribPositon(randomInt(300), randomInt(300), randomInt(300), randomInt(300));
-    const color = CreateAttribColor(randomInt(255), randomInt(255), randomInt(255), 255);
-    CreateRect(gl, color, pos);
-    //}
+    for (let ii = 0; ii < 500; ++ii) {
+        const   x = randomInt(canvas.width),
+                y = randomInt(canvas.height),
+                w = randomInt(canvas.width - x),
+                h = randomInt(canvas.height - y);
+        rects.push(new Rect(x, y, w, h, obj=>{
+            obj.SetColor(
+                EaseOutBounce(obj.x/canvas.width),
+                EaseOutElastic(obj.y/canvas.height),
+                EaseInOutBounce((obj.x+obj.y)/(canvas.width+canvas.height)),
+            );
+        }));
+        
+        CreateResize(rects[ii], x, y, w, h, 1);
+    }
+
+    const manager = new Manager(gl, color);
+    manager.AddFigures(...rects);
+    let fps;
+    const animation = () =>{
+        window.requestAnimationFrame(()=>{
+            let t = performance.now();
+            manager.DrawAll();
+            animation();
+            fps = performance.now() - t;
+        });
+    }
+    animation();
+    window.addEventListener("click", ()=>console.log(fps))
 };
 main();
-
-
-
-
-
-// const ecs = new ECS();
-
-// const Position = ecs.CreateComponent(types.uint32);
-// const Direction = ecs.CreateComponent(types.uint32);
-
-// const Translate = ecs.CreateGroup(Position, Direction);
-
-// const Transform = ecs.CreateSystem(Translate, (entities, Pos) => {
-//     entities.forEach(element => {
-//         console.log(Pos[element]);
-//     });
-// });
-
-// ecs.CreateEntity(Translate);
-
-// transform();
